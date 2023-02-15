@@ -5,6 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
+    'name' => 'Do Sites CRM',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
@@ -49,9 +50,13 @@ $config = [
             'enableStrictParsing' => true,
             'rules' => [
                 '' => 'site/index',
-                'about' => 'site/about',
-                'contact' => 'site/contact',
                 'user/login' => 'site/login',
+                'user/logout' => 'site/logout',
+                [
+                    'pattern' => 'captcha',
+                    'route' => 'site/captcha',
+                    'suffix' => '.png',
+                ],
             ],
         ],
     ],

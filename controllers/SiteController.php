@@ -61,18 +61,15 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        $form_login = new LoginForm();
+        if ($form_login->load(Yii::$app->request->post()) && $form_login->login()) {
             return $this->goBack();
         }
 
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
+        $form_login->password = '';
+
+        return $this->render('index', [
+            'model' => $form_login,
         ]);
     }
 
@@ -115,7 +112,7 @@ class SiteController extends Controller
      *
      * @return Response|string
      */
-    public function actionContact()
+/*    public function actionContact()
     {
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
@@ -126,15 +123,15 @@ class SiteController extends Controller
         return $this->render('contact', [
             'model' => $model,
         ]);
-    }
+    }*/
 
     /**
      * Displays about page.
      *
      * @return string
      */
-    public function actionAbout()
+/*    public function actionAbout()
     {
         return $this->render('about');
-    }
+    }*/
 }
