@@ -10,7 +10,7 @@ use yii\bootstrap5\Html;
 use yii\helpers\VarDumper;
 
 Yii::$app->formatter->locale = 'ru-RU';
-$this->title = 'Do Sites CRM';
+$this->title = 'Изучение фреймворка Yii2';
 ?>
 <div class="site-index">
     <?php if (Yii::$app->user->isGuest): ?>
