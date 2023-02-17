@@ -8,6 +8,7 @@
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\helpers\VarDumper;
+use yii\helpers\Url;
 
 Yii::$app->formatter->locale = 'ru-RU';
 $this->title = 'Изучение фреймворка Yii2';
@@ -27,11 +28,11 @@ $this->title = 'Изучение фреймворка Yii2';
         <p>Привет: <?php print Yii::$app->user->identity->username; ?></p>
         <p>Время на сервере: <?php print date('d.m.Y G:i'); ?></p>
         <p>Время на сервере Unixtime: <?php print date('U'); ?></p>
-        <p><a href="<?php print Yii::$app->getUrlManager()->createUrl(['country/index']); ?>">Страны</a></p>
+        <p><?= Html::a('Страны', Url::toRoute(['country/index'])); ?>
     <?php if (isset($modelFormTest->date)): ?>
         <p>
             <label>Введенная дата:</label>
-            <?= \Yii::$app->formatter->asDate(Html::encode($modelFormTest->date), 'long'); ?>
+            <?= Yii::$app->formatter->asDate(Html::encode($modelFormTest->date), 'long'); ?>
         </p>
     <?php else: ?>
         <p>Тут появится введеная дата.</p>
