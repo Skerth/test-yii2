@@ -45,18 +45,17 @@ $config = [
         ],
         'db' => $db,
         'urlManager' => [
-            'enablePrettyUrl' => true,
+            'enablePrettyUrl' => false,
             'showScriptName' => false,
             'enableStrictParsing' => true,
             'rules' => [
-                '' => 'site/index',
-                'user/login' => 'site/login',
+/*                '' => 'site/index',
                 'user/logout' => 'site/logout',
                 [
                     'pattern' => 'captcha',
                     'route' => 'site/captcha',
                     'suffix' => '.png',
-                ],
+                ],*/
             ],
         ],
     ],

@@ -36,6 +36,22 @@ class LoginForm extends Model
     }
 
     /**
+     * Returns the attribute labels.
+     *
+     * See Model class for more details
+     *
+     * @return array attribute labels (name => label).
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Логин',
+            'password' => 'Пароль',
+            'rememberMe' => 'Запомнить?',
+        ];
+    }
+
+    /**
      * Validates the password.
      * This method serves as the inline validation for password.
      *
