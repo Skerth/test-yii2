@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'code',
             'name',
-            'population',
+            'population:integer',
         ],
     ]) ?>
 

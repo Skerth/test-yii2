@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'code',
             'name',
-            'population',
+            'population:integer',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Country $model, $key, $index, $column) {

@@ -1,7 +1,7 @@
 <?php
 
-$params = require __DIR__ . '/params.php';
-$db = require __DIR__ . '/db.php';
+$params = merge_configs(__DIR__ . '/params.php', __DIR__ . '/params.local.php');
+$db = merge_configs(__DIR__ . '/db.php', __DIR__ . '/db.local.php');
 
 $config = [
     'id' => 'basic',
@@ -15,7 +15,7 @@ $config = [
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'xfxuAS9dtQkMjoXEEWRSikPaL-xF5BAy',
+            'cookieValidationKey' => 'params.cookieValidationKey',
             'baseUrl' => '',
         ],
         'cache' => [
@@ -58,6 +58,11 @@ $config = [
                 ],*/
             ],
         ],
+        'formatter' => [
+            'decimalSeparator' => ',',
+            'thousandSeparator' => ' ',
+            'currencyCode' => 'RUR',
+        ],
     ],
     'params' => $params,
 ];
@@ -80,3 +85,12 @@ if (YII_ENV_DEV) {
 }
 
 return $config;
+
+function merge_configs($base, $customized)
+{
+    $baseConfig = require($base);
+
+    if (is_file($customized))
+        return yii\helpers\ArrayHelper::merge($baseConfig, require($customized));
+    return $baseConfig;
+}

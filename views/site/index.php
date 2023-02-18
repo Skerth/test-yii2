@@ -25,9 +25,10 @@ $this->title = 'Изучение фреймворка Yii2';
         <div class="border bg-light mb-3 p-3">
            <?php VarDumper::dump($modelFormTest,  10, true); ?>
         </div>
-        <p>Привет: <?php print Yii::$app->user->identity->username; ?></p>
-        <p>Время на сервере: <?php print date('d.m.Y G:i'); ?></p>
-        <p>Время на сервере Unixtime: <?php print date('U'); ?></p>
+        <p>Привет: <?= Yii::$app->user->identity->username; ?></p>
+        <p>Привет: <?= Yii::$app->params['adminEmail']; ?></p>
+        <p>Время на сервере: <?= date('d.m.Y G:i'); ?></p>
+        <p>Время на сервере Unixtime: <?= date('U'); ?></p>
         <p><?= Html::a('Страны', Url::toRoute(['country/index'])); ?>
     <?php if (isset($modelFormTest->date)): ?>
         <p>
