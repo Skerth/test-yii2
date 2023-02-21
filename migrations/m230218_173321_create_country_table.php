@@ -14,7 +14,8 @@ class m230218_173321_create_country_table extends Migration
     {
         $table_isset = Yii::$app->db->getTableSchema('country');
 
-        if(!isset($table_isset)) {
+        if(!isset($table_isset))
+        {
             $this->createTable('{{%country}}', [
                 'code' => 'char(2) NOT NULL PRIMARY KEY',
                 'name' => $this->string(50)->notNull(),
