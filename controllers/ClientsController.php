@@ -8,6 +8,8 @@ use app\models\ClientsPhones;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use Yii;
+use yii\base\Model;
 
 /**
  * ClientsController implements the CRUD actions for Clients model.
@@ -56,8 +58,11 @@ class ClientsController extends Controller
      */
     public function actionView($id)
     {
+       $client = Clients::findOne($id);
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $client,
+            'phones' => $client->phones
         ]);
     }
 
@@ -70,7 +75,7 @@ class ClientsController extends Controller
     {
         $model = new Clients();
 
-        $count = count(Yii::$app->request->post('Phones', []));
+        $count = count(Yii::$app->request->post('ClientsPhones', []));
         $phones = [new ClientsPhones()];
 
         for($i = 1; $i < $count; $i++) {
@@ -79,6 +84,13 @@ class ClientsController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
+                if (Model::loadMultiple($phones, Yii::$app->request->post())) {
+                    foreach ($phones as $i => $phone) {
+                        $phone->client_id = $model->id;
+                        $phone->save(false);
+                    }
+                }
+
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -100,10 +112,17 @@ class ClientsController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-        $phones = ClientsPhones::find()->indexBy('client_id')->all();
+        $model = Clients::findOne($id);
+        //$phones = ClientsPhones::find()->where(['client_id' => $id])->all();
+        $phones = $model->phones;
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save() && $phones->save()) {
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()
+            && Model::loadMultiple($phones, Yii::$app->request->post()) && Model::validateMultiple($phones)) {
+
+            foreach ($phones as $phone) {
+                $phone->save(false);
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

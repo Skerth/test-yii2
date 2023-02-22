@@ -43,4 +43,9 @@ class Clients extends \yii\db\ActiveRecord
             'note' => 'Note',
         ];
     }
+
+    public function getPhones()
+    {
+        return $this->hasMany(ClientsPhones::class, ['client_id' => 'id']);
+    }
 }

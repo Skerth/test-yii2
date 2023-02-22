@@ -22,6 +22,14 @@ class ClientsPhones extends \yii\db\ActiveRecord
         return 'clients_phones';
     }
 
+    public static function primaryKey()
+    {
+        return [
+            'client_id',
+            'phone',
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */

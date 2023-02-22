@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\VarDumper;
 
 /** @var yii\web\View $this */
 /** @var app\models\Clients $model */
@@ -17,13 +18,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'note')->textarea(['rows' => 6]) ?>
 
+    <?php // VarDumper::dump($phones,  10, true); ?>
     <?php
-            foreach ($phones as $index => $phone) {
-                echo $form->field($phone, '[$index]value')->label('Телефон');
-            }
+        foreach ($phones as $index => $phone)
+        {
+            echo $form->field($phone, "[$index]phone")->label('Phone');
+        }
     ?>
 
-    <div class="form-group">
+    <div class="form-group pt-4">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
 

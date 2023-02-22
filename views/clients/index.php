@@ -32,7 +32,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=>'id',
                 'options' => ['width' => '70']
             ],
-            'name',
+            [
+                'attribute' => 'name',
+                'label' => 'Name',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return Html::a($model->name, Url::toRoute(['clients/view', 'id' => $model->id]));
+                },
+            ],
             'note:ntext',
             [
                 'class' => ActionColumn::className(),
