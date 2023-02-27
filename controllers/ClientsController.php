@@ -101,6 +101,7 @@ class ClientsController extends Controller
             // validate all models
             $valid = $client->validate();
             $valid = Model::validateMultiple($phones) && $valid;
+            $flag = false;
 
             if ($valid)
             {
@@ -131,8 +132,7 @@ class ClientsController extends Controller
                             return $this->redirect(['view', 'id' => $client->id]);
                         }
                     }
-                } catch (\Exception $e)
-                {
+                } catch (\Exception $e) {
                     Yii::info("Исключение: " . $e);
                     $transaction->rollBack();
                 }
@@ -179,7 +179,7 @@ class ClientsController extends Controller
             $oldIDs = ArrayHelper::map($phones, 'id', 'id');
             Yii::info("Старые ID: " . json_encode($oldIDs));
             $phones = Model::createMultiple(ClientsPhones::className(), $phones);
-            Model::loadMultiple($phones, Yii::$app->request->post());
+            ClientsPhones::loadMultiple($phones, Yii::$app->request->post());
             $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($phones, 'id', 'id')));
             Yii::info("Удаленные ID: " . json_encode($deletedIDs));
 
@@ -196,13 +196,18 @@ class ClientsController extends Controller
             // validate all models
             $valid = $client->validate();
             $valid = Model::validateMultiple($phones) && $valid;
+            $flag = false;
+
+            Yii::info("Валидация: " . $valid);
 
             if ($valid)
             {
                 $transaction = Yii::$app->db->beginTransaction();
+                Yii::info("Начало транзакции");
+
                 try
                 {
-                    if ($flag = $client->save(false))
+                    if ($client->save(false))
                     {
                         if (! empty($deletedIDs))
                         {
@@ -210,7 +215,8 @@ class ClientsController extends Controller
                         }
                         foreach ($phones as $phone)
                         {
-                            $phone->client_id = $phone->id;
+                            Yii::info("Сохраняю телефон: " . $phone->phone);
+
                             if (! ($flag = $phone->save(false))) {
                                 $transaction->rollBack();
                                 break;
@@ -218,10 +224,12 @@ class ClientsController extends Controller
                         }
                     }
                     if ($flag) {
+                        Yii::info("Начало транзакции");
                         $transaction->commit();
                         return $this->redirect(['view', 'id' => $client->id]);
                     }
                 } catch (\Exception $e) {
+                    Yii::info("Исключение: " . $e);
                     $transaction->rollBack();
                 }
             }
@@ -239,6 +247,8 @@ class ClientsController extends Controller
      * @param int $id ID
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {
