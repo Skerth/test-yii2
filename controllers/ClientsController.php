@@ -215,6 +215,7 @@ class ClientsController extends Controller
                         }
                         foreach ($phones as $phone)
                         {
+                            $phone->client_id = $client->id;
                             Yii::info("Сохраняю телефон: " . $phone->phone);
 
                             if (! ($flag = $phone->save(false))) {

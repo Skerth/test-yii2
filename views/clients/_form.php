@@ -9,7 +9,24 @@ use wbraganca\dynamicform\DynamicFormWidget;
 /** @var app\models\Clients $client */
 /** @var app\models\ClientsPhones $phones */
 /** @var yii\widgets\ActiveForm $form */
+
+$js = '
+jQuery(".dynamicform_wrapper").on("afterInsert", function(e, item) {
+    jQuery(".dynamicform_wrapper .card-header h5").each(function(index) {
+        jQuery(this).html("Phone: " + (index + 1));
+    });
+});
+
+jQuery(".dynamicform_wrapper").on("afterDelete", function(e) {
+    jQuery(".dynamicform_wrapper .card-header h5").each(function(index) {
+        jQuery(this).html("Phone: " + (index + 1));
+    });
+});
+';
+
+$this->registerJs($js);
 ?>
+
 
 <div class="clients-form">
 
@@ -31,7 +48,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
             'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
             'widgetBody' => '.container-items', // required: css class selector
             'widgetItem' => '.item', // required: css class
-            'limit' => 4, // the maximum times, an element can be cloned (default 999)
+            'limit' => 10, // the maximum times, an element can be cloned (default 999)
             'min' => 1, // 0 or 1 (default 1)
             'insertButton' => '.add-item', // css class
             'deleteButton' => '.remove-item', // css class
@@ -53,7 +70,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
                 <div class="item card"><!-- widgetBody -->
                     <div class="card-header">
                         <div class="row">
-                            <h5 class="col">Phone</h5>
+                            <h5 class="col">Phone: <?= $i + 1 ?></h5>
                             <div class="col-auto">
                                 <button type="button" class="remove-item btn btn-danger btn-sm"><i class="fa fa-minus"></i></button>
                             </div>
@@ -62,10 +79,10 @@ use wbraganca\dynamicform\DynamicFormWidget;
                     <div class="card-body">
                         <?php
                         // necessary for update action.
-                        if (! $phone->isNewRecord)
+                        /*if (! $phone->isNewRecord)
                         {
                             echo Html::activeHiddenInput($phone, "[{$i}]id");
-                        }
+                        }*/
                         ?>
                         <?= $form->field($phone, "[{$i}]phone")->textInput(['maxlength' => true]) ?>
                     </div>
