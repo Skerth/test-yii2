@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /** @var yii\web\View $this */
-/** @var app\models\Clients $model */
+/** @var app\models\Clients $client */
 /** @var app\models\ClientsPhones $phones */
 
 $this->title = 'Create Clients';
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
-        'model' => $model,
+        'client' => $client,
         'phones' => $phones,
     ]) ?>
 

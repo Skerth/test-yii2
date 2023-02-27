@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use yii\helpers\VarDumper;
+#use yii\helpers\VarDumper;
 
 /** @var yii\web\View $this */
 /** @var app\models\Clients $model */
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="clients-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php //VarDumper::dump($phones,  10, true); ?>
+    <?php // VarDumper::dump($phones,  10, true); ?>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>

@@ -29,9 +29,13 @@ class m230221_061913_create_clients_table extends Migration
 
         if(!isset($table_isset)) {
             $this->createTable('{{%clients_phones}}', [
+                'id' => $this->primaryKey(),
                 'client_id' => $this->smallInteger('8')->notNull(),
                 'phone' => $this->char(255),
             ]);
+
+            $this->alterColumn('{{%clients_phones}}', 'id', $this->smallInteger(8) . ' NOT NULL AUTO_INCREMENT');
+
         }
 
         // creates index for column `author_id`

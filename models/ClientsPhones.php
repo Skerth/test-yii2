@@ -22,21 +22,12 @@ class ClientsPhones extends \yii\db\ActiveRecord
         return 'clients_phones';
     }
 
-    public static function primaryKey()
-    {
-        return [
-            'client_id',
-            'phone',
-        ];
-    }
-
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['client_id'], 'required'],
             [['client_id'], 'integer'],
             [['phone'], 'string', 'max' => 255],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clients::class, 'targetAttribute' => ['client_id' => 'id']],

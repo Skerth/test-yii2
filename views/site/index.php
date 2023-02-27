@@ -29,7 +29,8 @@ $this->title = 'Изучение фреймворка Yii2';
         <p>Привет: <?= Yii::$app->params['adminEmail']; ?></p>
         <p>Время на сервере: <?= date('d.m.Y G:i'); ?></p>
         <p>Время на сервере Unixtime: <?= date('U'); ?></p>
-        <p><?= Html::a('Страны', Url::toRoute(['country/index'])); ?>
+        <p><?= Html::a('Клиенты', Url::toRoute(['clients/index'])); ?></p>
+
     <?php if (isset($modelFormTest->date)): ?>
         <p>
             <label>Введенная дата:</label>
