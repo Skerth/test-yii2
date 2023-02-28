@@ -76,17 +76,17 @@ $this->registerJs($js);
                             echo Html::activeHiddenInput($contact, "[{$i}]id");
                         }
                         ?>
+
                         <div class="card-header">
                             <div class="row align-items-center">
                                 <h3 class="h6 col mb-0"><i class="fa fa-address-card-o"></i> Contact card: <span class="contacts-item--num"><?= $i + 1 ?></span></h3>
 
                                 <div class="col-auto">
-                                    <button type="button" class="remove-item btn btn-danger btn-sm"><i
-                                                class="fa fa-minus"></i> Delete
-                                    </button>
+                                    <button type="button" class="remove-item btn btn-danger btn-sm"><i class="fa fa-minus"></i> Delete</button>
                                 </div>
                             </div>
                         </div>
+
                         <div class="card-body">
                             <?=
                             $form->field($contact, "[{$i}]name", ['options' => ['class' => 'form-group mb-2']])

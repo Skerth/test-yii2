@@ -31,8 +31,9 @@ class ClientsContact extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['client_id', 'phone'], 'required'],
             [['client_id'], 'integer'],
+            [['phone'], 'required'],
+            [['email'], 'email'],
             [['name', 'phone', 'email'], 'string', 'max' => 255],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clients::class, 'targetAttribute' => ['client_id' => 'id']],
         ];

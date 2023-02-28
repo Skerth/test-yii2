@@ -75,6 +75,7 @@ class ClientsController extends Controller
      */
     public function actionCreate()
     {
+        $flag = false;
         $modelClient = new Clients;
         $modelContacts = [new ClientsContact];
 
@@ -94,24 +95,16 @@ class ClientsController extends Controller
                 );
             }
 
-            // validate all models
-            $valid = $modelClient->validate();
-            $valid = Model::validateMultiple($modelContacts) && $valid;
-            $flag = false;
-
-            if ($valid)
+            if ($modelClient->validate() && Model::validateMultiple($modelContacts))
             {
                 $transaction = Yii::$app->db->beginTransaction();
-                Yii::info("Начало транзакции записи в БД");
                 try
                 {
                     if ($modelClient->save(false))
                     {
-                        Yii::info("Клиент записан");
                         foreach ($modelContacts as $contact)
                         {
                             $contact->client_id = $modelClient->id;
-                            Yii::info("Телефон: " . $contact->phone);
 
                             if (! ($flag = $contact->save(false)))
                             {
@@ -122,7 +115,6 @@ class ClientsController extends Controller
 
                         if ($flag)
                         {
-                            Yii::info("Контакты записаны");
                             $transaction->commit();
                             return $this->redirect(['view', 'id' => $modelClient->id]);
                         }
@@ -148,6 +140,7 @@ class ClientsController extends Controller
      */
     public function actionUpdate($id)
     {
+        $flag = false;
         $modelClient = $this->findModel($id);
         $modelContacts = $modelClient->contacts;
 
@@ -168,12 +161,7 @@ class ClientsController extends Controller
                 );
             }
 
-            // validate all models
-            $valid = $modelClient->validate();
-            $valid = Model::validateMultiple($modelContacts) && $valid;
-            $flag = false;
-
-            if ($valid)
+            if ($modelClient->validate() && Model::validateMultiple($modelContacts))
             {
                 $transaction = Yii::$app->db->beginTransaction();
 
