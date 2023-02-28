@@ -5,7 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Clients;
 use app\models\ClientsSearch;
-use app\models\ClientsPhones;
+use app\models\ClientsContact;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -57,7 +57,6 @@ class ClientsController extends Controller
      * Displays a single Clients model.
      * @param int $id ID
      * @return string
-     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
@@ -65,7 +64,7 @@ class ClientsController extends Controller
 
         return $this->render('view', [
             'model' => $client,
-            'phones' => $client->phones
+            'contacts' => $client->contacts,
         ]);
     }
 
@@ -76,16 +75,13 @@ class ClientsController extends Controller
      */
     public function actionCreate()
     {
-        $client = new Clients;
-        $phones = [new ClientsPhones];
-        Yii::info("Приступаем к созданию клиента");
+        $modelClient = new Clients;
+        $modelContacts = [new ClientsContact];
 
-        if ($client->load(Yii::$app->request->post()))
+        if ($modelClient->load(Yii::$app->request->post()))
         {
-            $phones = Model::createMultiple(ClientsPhones::classname());
-            ClientsPhones::loadMultiple($phones, Yii::$app->request->post());
-
-            Yii::info("Количество телефонов: " . count($phones));
+            $modelContacts = Model::createMultiple(ClientsContact::classname());
+            ClientsContact::loadMultiple($modelContacts, Yii::$app->request->post());
 
             // ajax validation
             if (Yii::$app->request->isAjax)
@@ -93,32 +89,31 @@ class ClientsController extends Controller
                 Yii::$app->response->format = Response::FORMAT_JSON;
 
                 return ArrayHelper::merge(
-                    ActiveForm::validateMultiple($phones),
-                    ActiveForm::validate($client)
+                    ActiveForm::validateMultiple($modelContacts),
+                    ActiveForm::validate($modelClient)
                 );
             }
 
             // validate all models
-            $valid = $client->validate();
-            $valid = Model::validateMultiple($phones) && $valid;
+            $valid = $modelClient->validate();
+            $valid = Model::validateMultiple($modelContacts) && $valid;
             $flag = false;
 
             if ($valid)
             {
                 $transaction = Yii::$app->db->beginTransaction();
-
+                Yii::info("Начало транзакции записи в БД");
                 try
                 {
-                    if ($client->save(false))
+                    if ($modelClient->save(false))
                     {
-                        Yii::info("Клиент сохранен");
-
-                        foreach ($phones as $phone)
+                        Yii::info("Клиент записан");
+                        foreach ($modelContacts as $contact)
                         {
-                            $phone->client_id = $client->id;
-                            Yii::info("Сохраняю телефон: " . $phone->phone);
+                            $contact->client_id = $modelClient->id;
+                            Yii::info("Телефон: " . $contact->phone);
 
-                            if (! ($flag = $phone->save(false)))
+                            if (! ($flag = $contact->save(false)))
                             {
                                 $transaction->rollBack();
                                 break;
@@ -127,22 +122,20 @@ class ClientsController extends Controller
 
                         if ($flag)
                         {
-                            Yii::info("Транзакция выполнена");
+                            Yii::info("Контакты записаны");
                             $transaction->commit();
-                            return $this->redirect(['view', 'id' => $client->id]);
+                            return $this->redirect(['view', 'id' => $modelClient->id]);
                         }
                     }
                 } catch (\Exception $e) {
-                    Yii::info("Исключение: " . $e);
                     $transaction->rollBack();
                 }
             }
         }
 
-        Yii::info("Вывод формы создания");
         return $this->render('create', [
-            'client' => $client,
-            'phones' => (empty($phones)) ? [new ClientsPhones] : $phones,
+            'client' => $modelClient,
+            'contacts' => (empty($modelContacts)) ? [new $modelContacts] : $modelContacts,
         ]);
     }
 
@@ -155,90 +148,66 @@ class ClientsController extends Controller
      */
     public function actionUpdate($id)
     {
-        /*
-        $model = Clients::findOne($id);
-        //$phones = ClientsPhones::find()->where(['client_id' => $id])->all();
-        $phones = $model->phones;
+        $modelClient = $this->findModel($id);
+        $modelContacts = $modelClient->contacts;
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()
-            && Model::loadMultiple($phones, Yii::$app->request->post()) && Model::validateMultiple($phones)) {
-
-            foreach ($phones as $phone) {
-                $phone->save(false);
-            }
-
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-        */
-
-        $client = $this->findModel($id);
-        $phones = $client->phones;
-
-        if ($client->load(Yii::$app->request->post()))
+        if ($modelClient->load(Yii::$app->request->post()))
         {
-            $oldIDs = ArrayHelper::map($phones, 'id', 'id');
-            Yii::info("Старые ID: " . json_encode($oldIDs));
-            $phones = Model::createMultiple(ClientsPhones::className(), $phones);
-            ClientsPhones::loadMultiple($phones, Yii::$app->request->post());
-            $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($phones, 'id', 'id')));
-            Yii::info("Удаленные ID: " . json_encode($deletedIDs));
+            $oldIDs = ArrayHelper::map($modelContacts, 'id', 'id');
+            $modelContacts = Model::createMultiple(ClientsContact::className(), $modelContacts);
+            ClientsContact::loadMultiple($modelContacts, Yii::$app->request->post());
+            $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelContacts, 'id', 'id')));
 
             // ajax validation
             if (Yii::$app->request->isAjax)
             {
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 return ArrayHelper::merge(
-                    ActiveForm::validateMultiple($phones),
-                    ActiveForm::validate($client)
+                    ActiveForm::validateMultiple($modelContacts),
+                    ActiveForm::validate($modelClient)
                 );
             }
 
             // validate all models
-            $valid = $client->validate();
-            $valid = Model::validateMultiple($phones) && $valid;
+            $valid = $modelClient->validate();
+            $valid = Model::validateMultiple($modelContacts) && $valid;
             $flag = false;
-
-            Yii::info("Валидация: " . $valid);
 
             if ($valid)
             {
                 $transaction = Yii::$app->db->beginTransaction();
-                Yii::info("Начало транзакции");
 
                 try
                 {
-                    if ($client->save(false))
+                    if ($modelClient->save(false))
                     {
                         if (! empty($deletedIDs))
                         {
-                            ClientsPhones::deleteAll(['id' => $deletedIDs]);
+                            ClientsContact::deleteAll(['id' => $deletedIDs]);
                         }
-                        foreach ($phones as $phone)
+                        foreach ($modelContacts as $contact)
                         {
-                            $phone->client_id = $client->id;
-                            Yii::info("Сохраняю телефон: " . $phone->phone);
+                            $contact->client_id = $modelClient->id;
 
-                            if (! ($flag = $phone->save(false))) {
+                            if (! ($flag = $contact->save(false))) {
                                 $transaction->rollBack();
                                 break;
                             }
                         }
                     }
                     if ($flag) {
-                        Yii::info("Начало транзакции");
                         $transaction->commit();
-                        return $this->redirect(['view', 'id' => $client->id]);
+                        return $this->redirect(['view', 'id' => $modelClient->id]);
                     }
                 } catch (\Exception $e) {
-                    Yii::info("Исключение: " . $e);
                     $transaction->rollBack();
                 }
             }
         }
 
         return $this->render('update', [
-            'client' => $client,
-            'phones' => (empty($phones)) ? [new ClientsPhones] : $phones,
+            'client' => $modelClient,
+            'contacts' => (empty($modelContacts)) ? [new ClientsContact()] : $modelContacts,
         ]);
     }
 

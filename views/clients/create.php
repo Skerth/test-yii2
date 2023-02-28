@@ -4,19 +4,23 @@ use yii\helpers\Html;
 
 /** @var yii\web\View $this */
 /** @var app\models\Clients $client */
-/** @var app\models\ClientsPhones $phones */
+/** @var app\models\ClientsContact $contacts */
 
-$this->title = 'Create Clients';
+$this->title = 'Create client';
 $this->params['breadcrumbs'][] = ['label' => 'Clients', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="clients-create">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="h3 mb-0"><i class="fa fa-pencil"></i> <?= Html::encode($this->title) ?></h1>
+        </div>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
-        'client' => $client,
-        'phones' => $phones,
-    ]) ?>
-
+        <div class="card-body">
+            <?= $this->render('_form', [
+                'client' => $client,
+                'contacts' => $contacts,
+            ]) ?>
+        </div>
+    </div>
 </div>

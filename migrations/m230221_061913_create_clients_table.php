@@ -24,35 +24,6 @@ class m230221_061913_create_clients_table extends Migration
 
             $this->alterColumn('{{%clients}}', 'id', $this->smallInteger(8) . ' NOT NULL AUTO_INCREMENT');
         }
-
-        $table_isset = Yii::$app->db->getTableSchema('clients_phones');
-
-        if(!isset($table_isset)) {
-            $this->createTable('{{%clients_phones}}', [
-                'id' => $this->primaryKey(),
-                'client_id' => $this->smallInteger('8')->notNull(),
-                'phone' => $this->char(255),
-            ]);
-
-            $this->alterColumn('{{%clients_phones}}', 'id', $this->smallInteger(8) . ' NOT NULL AUTO_INCREMENT');
-
-        }
-
-        // creates index for column `author_id`
-        $this->createIndex(
-            'idx-clients_phones-client_id',
-            'clients_phones',
-            'client_id'
-        );
-
-        $this->addForeignKey(
-            'fk-clients_phones-client_id',
-            'clients_phones',
-            'client_id',
-            'clients',
-            'id',
-            'CASCADE'
-        );
     }
 
     /**

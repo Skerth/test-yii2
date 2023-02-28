@@ -2,8 +2,6 @@
 
 namespace app\models;
 
-use Yii;
-
 /**
  * This is the model class for table "clients".
  *
@@ -44,8 +42,10 @@ class Clients extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getPhones()
+    public function getContacts()
     {
-        return $this->hasMany(ClientsPhones::class, ['client_id' => 'id']);
+        return $this->hasMany(ClientsContact::class, ['client_id' => 'id']);
     }
+
+
 }

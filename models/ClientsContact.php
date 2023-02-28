@@ -2,22 +2,27 @@
 
 namespace app\models;
 
+use Yii;
+
 /**
- * This is the model class for table "clients_phones".
+ * This is the model class for table "clients_contact".
  *
+ * @property int $id
  * @property int $client_id
+ * @property string|null $name
  * @property string|null $phone
+ * @property string|null $email
  *
  * @property Clients $client
  */
-class ClientsPhones extends \yii\db\ActiveRecord
+class ClientsContact extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'clients_phones';
+        return 'clients_contact';
     }
 
     /**
@@ -26,9 +31,9 @@ class ClientsPhones extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['client_id', 'phone'], 'required'],
             [['client_id'], 'integer'],
-            [['phone'], 'string', 'max' => 255],
-            // client_id требует проверки существования id в модели User (используя значение user_id)
+            [['name', 'phone', 'email'], 'string', 'max' => 255],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clients::class, 'targetAttribute' => ['client_id' => 'id']],
         ];
     }
@@ -39,8 +44,11 @@ class ClientsPhones extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+            'id' => 'ID',
             'client_id' => 'Client ID',
+            'name' => 'Name',
             'phone' => 'Phone',
+            'email' => 'Email',
         ];
     }
 

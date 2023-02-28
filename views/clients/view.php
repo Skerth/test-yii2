@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
 /** @var app\models\Clients $model */
-/** @var app\models\ClientsPhones $phones */
+/** @var app\models\ClientsContact $contacts */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Clients', 'url' => ['index']];
@@ -39,8 +39,11 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
     <?php
-        foreach ($phones as $phone) {
-            echo Html::tag('p', Html::encode($phone->phone), ['class' => 'client-phone']);
+        foreach ($contacts as $contact) {
+            echo Html::tag('p', Html::encode($contact->name), ['class' => 'client-name']);
+            echo Html::tag('p', Html::encode($contact->phone), ['class' => 'client-phone']);
+            echo Html::tag('p', Html::encode($contact->email), ['class' => 'client-email']);
+            echo Html::tag('hr');
         }
     ?>
 
