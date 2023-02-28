@@ -42,6 +42,15 @@ a.desc:after {
 
 .grid-view th {
     white-space: nowrap;
+    font-weight: 500;
+}
+
+table th {
+    font-weight: 500;
+}
+
+table th a[data-sort] {
+    text-decoration-style: dashed;
 }
 
 .hint-block {

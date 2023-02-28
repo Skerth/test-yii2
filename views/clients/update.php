@@ -6,10 +6,10 @@ use yii\helpers\Html;
 /** @var app\models\Clients $client */
 /** @var app\models\ClientsContact $contacts */
 
-$this->title = 'Update client: ' . $client->name;
-$this->params['breadcrumbs'][] = ['label' => 'Clients', 'url' => ['index']];
+$this->title = 'Обновление клиента: ' . $client->name;
+$this->params['breadcrumbs'][] = ['label' => 'Клиенты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $client->name, 'url' => ['view', 'id' => $client->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Обновление';
 ?>
 <div class="client-update">
     <div class="card">

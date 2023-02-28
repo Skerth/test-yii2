@@ -4,23 +4,25 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use wbraganca\dynamicform\DynamicFormWidget;
 
+//use yii\helpers\VarDumper;
+
 /** @var yii\web\View $this */
 /** @var app\models\Clients $client */
-/** @var app\models\ClientsPhones $phones */
 /** @var app\models\ClientsContact $contacts */
 /** @var yii\widgets\ActiveForm $form */
 
 $js = '
-jQuery(".dynamicform_wrapper").on("afterInsert", function(e, item) {
-    jQuery(".dynamicform_wrapper .contacts-item .contacts-item--num").each(function(index) {
-        jQuery(this).text(index + 1);
-    });
-});
+let $dynamicform_wrap = $(".dynamicform_wrapper");
+let $contact_items_empty = $(".contacts-items--empty");
+let contact_items_empty_text = "Контакты отсутствуют";
 
-jQuery(".dynamicform_wrapper").on("afterDelete", function(e) {
-    jQuery(".dynamicform_wrapper .contacts-item .contacts-item--num").each(function(index) {
-        jQuery(this).text(index + 1);
+$dynamicform_wrap.on("afterInsert afterDelete", function(e, item) {
+    let $contacts_item_num = $dynamicform_wrap.find(".contacts-item .contacts-item--num");
+    $contacts_item_num.each(function(index) {
+        $(this).text(index + 1);
     });
+    
+    $contacts_item_num.length ? $contact_items_empty.text("") : $contact_items_empty.text(contact_items_empty_text);
 });
 ';
 
@@ -29,7 +31,6 @@ $this->registerJs($js);
 
 
 <div class="client-form">
-
     <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
 
     <?=
@@ -58,9 +59,9 @@ $this->registerJs($js);
         ]); ?>
 
         <div class="title row align-items-center">
-            <h2 class="h5 col mb-0"><i class="fa fa-address-book-o"></i> Contacts</h2>
+            <h2 class="h5 col mb-0"><i class="fa fa-address-book-o"></i> Контакты</h2>
             <div class="col-auto">
-                <button type="button" class="add-item btn btn-success btn-sm"><i class="fa fa-plus"></i> Add contacts</button>
+                <button type="button" class="add-item btn btn-success btn-sm"><i class="fa fa-plus"></i> Добавить</button>
             </div>
         </div>
 
@@ -79,10 +80,10 @@ $this->registerJs($js);
 
                         <div class="card-header">
                             <div class="row align-items-center">
-                                <h3 class="h6 col mb-0"><i class="fa fa-address-card-o"></i> Contact card: <span class="contacts-item--num"><?= $i + 1 ?></span></h3>
+                                <h3 class="h6 col mb-0"><i class="fa fa-address-card-o"></i> Карточка контакта: <span class="contacts-item--num"><?= $i + 1 ?></span></h3>
 
                                 <div class="col-auto">
-                                    <button type="button" class="remove-item btn btn-danger btn-sm"><i class="fa fa-minus"></i> Delete</button>
+                                    <button type="button" class="remove-item btn btn-danger btn-sm"><i class="fa fa-minus"></i> Удалить</button>
                                 </div>
                             </div>
                         </div>
@@ -109,6 +110,12 @@ $this->registerJs($js);
                 </div>
             <?php endforeach; ?>
         </div>
+
+        <div class="contacts-items--empty col-12 text-secondary">
+            <?php if (!isset($contacts[0]->phone)): ?>
+                Контакты отсутствуют
+            <?php endif; ?>
+        </div>
         
         <hr />
 
@@ -116,7 +123,7 @@ $this->registerJs($js);
     </div>
 
     <div class="form-group pt-2">
-        <?= Html::submitButton($client->isNewRecord ? 'Create' : 'Update', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton('<i class="fa fa-floppy-o"></i>  Сохранить', ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

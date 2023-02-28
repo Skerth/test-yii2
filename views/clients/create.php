@@ -6,11 +6,11 @@ use yii\helpers\Html;
 /** @var app\models\Clients $client */
 /** @var app\models\ClientsContact $contacts */
 
-$this->title = 'Create client';
-$this->params['breadcrumbs'][] = ['label' => 'Clients', 'url' => ['index']];
+$this->title = 'Добавление клиента';
+$this->params['breadcrumbs'][] = ['label' => 'Клиенты', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="clients-create">
+<div class="client-create">
     <div class="card">
         <div class="card-header">
             <h1 class="h3 mb-0"><i class="fa fa-pencil"></i> <?= Html::encode($this->title) ?></h1>

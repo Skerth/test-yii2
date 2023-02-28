@@ -37,8 +37,8 @@ class Clients extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'note' => 'Note',
+            'name' => 'Наименование',
+            'note' => 'Заметки',
         ];
     }
 

@@ -46,9 +46,9 @@ class ClientsContact extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'client_id' => 'Client ID',
-            'name' => 'Name',
-            'phone' => 'Phone',
+            'client_id' => 'ID клиента',
+            'name' => 'ФИО',
+            'phone' => 'Телефон',
             'email' => 'Email',
         ];
     }

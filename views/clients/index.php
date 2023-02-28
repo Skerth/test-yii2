@@ -10,22 +10,24 @@ use yii\grid\GridView;
 /** @var app\models\ClientsSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Clients';
+$this->title = 'Клиенты';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="clients-index">
+<div class="client-index">
+    <div class="row">
+        <h1 class="col h3 mb-0"><?= Html::encode($this->title) ?></h1>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Create Clients', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+        <div class="col-auto btn-group btn-group-sm">
+            <?= Html::a('<i class="fa fa-plus"></i> Добавить клиента', ['create'], ['class' => 'btn btn-success']) ?>
+        </div>
+    </div>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'options' => ['class' => 'grid-view mt-3'],
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
             [
@@ -34,7 +36,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'name',
-                'label' => 'Name',
                 'format' => 'raw',
                 'value' => function ($model) {
                     return Html::a($model->name, Url::toRoute(['clients/view', 'id' => $model->id]));
@@ -49,6 +50,4 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-
-
 </div>
