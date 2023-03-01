@@ -59,7 +59,7 @@ $config = [
             ],
         ],
         'formatter' => [
-            'decimalSeparator' => ',',
+            'decimalSeparator' => '.',
             'thousandSeparator' => ' ',
             'currencyCode' => 'RUR',
         ],

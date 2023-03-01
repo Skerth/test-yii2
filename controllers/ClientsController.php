@@ -13,6 +13,7 @@ use yii\filters\VerbFilter;
 use app\base\Model;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
+use yii\filters\AccessControl;
 
 /**
  * ClientsController implements the CRUD actions for Clients model.
@@ -27,6 +28,16 @@ class ClientsController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [

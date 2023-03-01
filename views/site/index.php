@@ -5,9 +5,7 @@
 /** @var app\models\LoginForm $modelLogin */
 /** @var app\models\TestForm $modelFormTest */
 
-use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
-use yii\helpers\VarDumper;
 use yii\helpers\Url;
 
 Yii::$app->formatter->locale = 'ru-RU';
@@ -22,14 +20,12 @@ $this->title = 'Изучение фреймворка Yii2';
         ?>
     <?php else: ?>
         <h1><?= Html::encode($this->title) ?></h1>
-        <div class="border bg-light mb-3 p-3">
-           <?php VarDumper::dump($modelFormTest,  10, true); ?>
-        </div>
         <p>Привет: <?= Yii::$app->user->identity->username; ?></p>
-        <p>Привет: <?= Yii::$app->params['adminEmail']; ?></p>
+        <p>Email: <?= Yii::$app->params['adminEmail']; ?></p>
         <p>Время на сервере: <?= date('d.m.Y G:i'); ?></p>
         <p>Время на сервере Unixtime: <?= date('U'); ?></p>
         <p><?= Html::a('Клиенты', Url::toRoute(['clients/index'])); ?></p>
+        <p><?= Html::a('Задачи', Url::toRoute(['task/index'])); ?></p>
 
     <?php if (isset($modelFormTest->date)): ?>
         <p>
