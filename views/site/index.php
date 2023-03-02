@@ -9,7 +9,7 @@ use yii\bootstrap5\Html;
 use yii\helpers\Url;
 
 Yii::$app->formatter->locale = 'ru-RU';
-$this->title = 'Изучение фреймворка Yii2';
+$this->title = 'NanoCRM by Do Sites';
 ?>
 <div class="site-index">
     <?php if (Yii::$app->user->isGuest): ?>
@@ -19,6 +19,7 @@ $this->title = 'Изучение фреймворка Yii2';
             ['modelLogin' => $modelLogin]);
         ?>
     <?php else: ?>
+        <?php Yii::$app->response->redirect(Url::toRoute(['clients/index'])); ?>
         <h1><?= Html::encode($this->title) ?></h1>
         <p>Привет: <?= Yii::$app->user->identity->username; ?></p>
         <p>Email: <?= Yii::$app->params['adminEmail']; ?></p>

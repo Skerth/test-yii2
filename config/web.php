@@ -5,7 +5,7 @@ $db = merge_configs(__DIR__ . '/db.php', __DIR__ . '/db.local.php');
 
 $config = [
     'id' => 'basic',
-    'name' => 'Изучение Yii2',
+    'name' => 'NanoCRM',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'aliases' => [
