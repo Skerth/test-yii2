@@ -76,6 +76,7 @@ class ClientsController extends Controller
         return $this->render('view', [
             'model' => $client,
             'contacts' => $client->contacts,
+            'tasks' => $client->tasks,
         ]);
     }
 

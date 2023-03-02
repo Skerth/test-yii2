@@ -59,6 +59,7 @@ $config = [
             ],
         ],
         'formatter' => [
+            'dateFormat' => 'dd.MM.yyyy',
             'decimalSeparator' => '.',
             'thousandSeparator' => ' ',
             'currencyCode' => 'RUR',

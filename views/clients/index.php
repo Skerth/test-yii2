@@ -36,12 +36,21 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'name',
-                'format' => 'raw',
+                'format' => 'html',
                 'value' => function ($model) {
-                    return Html::a($model->name, Url::toRoute(['clients/view', 'id' => $model->id]));
+                    $activeTasks = $model->activeTasks;
+                    $val = Html::a($model->name, Url::toRoute(['clients/view', 'id' => $model->id]));
+                    if (!empty($activeTasks))
+                    {
+                        $val .= '<div>' . Html::tag('small', 'Активных задач: ' . count($activeTasks), ['class' => 'text-secondary']) . '</div>';
+                    }
+                    return $val;
                 },
             ],
-            'note:ntext',
+            [
+                'attribute' => 'note',
+                'filter' => false,
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Clients $model, $key, $index, $column) {

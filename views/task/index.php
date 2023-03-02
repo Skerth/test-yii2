@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'archive',
-                'format' => 'raw',
+                'format' => 'html',
                 'options' => ['width' => '70'],
                 'value' => function ($model) {
                     return $model->archive ? '<span class="text-danger">Архив</span>' : '<span class="text-success">Активно</span>';
@@ -45,22 +45,27 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'client_id',
-                'format' => 'raw',
+                'format' => 'html',
                 'value' => function ($model) {
                     $client = Clients::find()->where('id = ' . $model->client_id)->one();
-                    return Html::a($client->name, Url::toRoute(['clients/view', 'id' => $client->id]));;
+                    return Html::a($client->name, Url::toRoute(['clients/view', 'id' => $client->id]));
                 },
                 'filter' => ArrayHelper::map(Clients::find()->orderBy('id')->all(), 'id', 'name'),
             ],
             [
                 'attribute' => 'service',
-                'format' => 'raw',
+                'format' => 'html',
                 'value' => function ($model) {
                     return ClientsTask::servicesArr[$model->service];
                 },
                 'filter' => ClientsTask::servicesArr,
             ],
-            'price',
+            [
+                'attribute' => 'price',
+                'value' => function ($model) {
+                    return number_format($model->price, 2, '.', ' ') . ' ₽';
+                },
+            ],
             [
                 'attribute' => 'check_date',
                 'value' => function ($model) {

@@ -42,9 +42,30 @@ class Clients extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getContacts()
     {
         return $this->hasMany(ClientsContact::class, ['client_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTasks()
+    {
+        return $this->hasMany(ClientsTask::class, ['client_id' => 'id'])
+            ->orderBy(['archive' => SORT_ASC]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getActiveTasks()
+    {
+        return $this->hasMany(ClientsTask::class, ['client_id' => 'id'])
+            ->andOnCondition(['archive' => '0']);
     }
 
 
