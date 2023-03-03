@@ -91,7 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="row">
                         <h2 class="h5 col mb-0"><i class="fa fa-tasks"></i> Задачи</h2>
                         <div class="col-auto">
-                            <?= Html::a('Создать задачу', ['task/create'], ['class' => 'btn btn-success']) ?>
+                            <?= Html::a('<i class="fa fa-plus"></i> Добавить задачу', ['task/create', 'client_id' => $model->id], ['class' => 'btn btn-success btn-sm']) ?>
                         </div>
                     </div>
                 </div>
@@ -103,11 +103,17 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="col-lg-6 contacts-item<?= $task->archive ? ' opacity-75' : false; ?>">
                             <div class="card item mb-4">
                                 <div class="card-header">
-                                    <h3 class="h6 mb-0">
-                                        <i class="fa fa-bullseye"></i>
-                                        <?= Html::a('Задача №' . $task->id, ['task/view', 'id' => $task->id]) ?>
-                                        <?= $task->archive ? '(Архив)' : false; ?>
-                                    </h3>
+                                    <div class="row align-items-center">
+                                        <h3 class="h6 mb-0 col">
+                                            <i class="fa fa-bullseye"></i>
+                                            <?= Html::a('Задача №' . $task->id, ['task/view', 'id' => $task->id]) ?>
+                                            <?= $task->archive ? '(Архив)' : false; ?>
+                                        </h3>
+                                        <div class="col-auto">
+                                            <?= Html::a('<i class="fa fa-pencil"></i> Редактировать',
+                                                ['task/update', 'id' => $task->id], ['class' => 'btn btn-secondary btn-sm']) ?>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="card-body">

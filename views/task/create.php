@@ -7,7 +7,12 @@ use yii\helpers\Html;
 /** @var array $clients */
 /** @var array $services */
 
+$request = Yii::$app->request;
+$client_id = $request->get('client_id');
+
 $this->title = 'Добавление задачи';
+if (isset($client_id))
+    $this->title .= ' для ' . \app\models\Clients::findOne($client_id)->name;
 $this->params['breadcrumbs'][] = ['label' => 'Задачи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -21,7 +26,8 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $this->render('_form', [
                 'model' => $model,
                 'clients' => $clients,
-                'services' => $services
+                'services' => $services,
+                'client_id' => $client_id,
             ]) ?>
         </div>
     </div>

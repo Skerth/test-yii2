@@ -10,6 +10,22 @@ use yii\widgets\ActiveForm;
 /** @var yii\widgets\ActiveForm $form */
 /** @var array $clients */
 /** @var array $services */
+/** @var integer $client_id */
+
+$paramsDropDownList = [
+    'prompt' => 'Выберите клиента',
+];
+
+if (isset($client_id)) {
+    $paramsDropDownList = array_merge($paramsDropDownList, [
+        'disabled' => true,
+        'options' => [
+            $client_id => [
+                    'Selected' => true,
+            ]
+        ]
+    ]);
+}
 ?>
 
 <div class="client-task-form">
@@ -18,9 +34,7 @@ use yii\widgets\ActiveForm;
     <div class="row">
         <div class="col-lg-6">
         <?=
-        $form->field($model, 'client_id')->dropDownList($clients, [
-            'prompt' => 'Выберите клиента'
-        ]);
+        $form->field($model, 'client_id')->dropDownList($clients, $paramsDropDownList);
         ?>
         <div class="row pt-3 pb-3">
             <?=
