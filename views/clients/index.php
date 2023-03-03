@@ -28,6 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'options' => ['class' => 'grid-view mt-3'],
+        'pager' => [
+            'class' => 'yii\bootstrap5\LinkPager',
+        ],
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
             [

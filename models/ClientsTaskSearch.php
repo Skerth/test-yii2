@@ -39,7 +39,7 @@ class ClientsTaskSearch extends ClientsTask
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $pageSize = 10)
     {
         $query = ClientsTask::find();
 
@@ -47,6 +47,9 @@ class ClientsTaskSearch extends ClientsTask
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => $pageSize,
+            ],
         ]);
 
         $this->load($params);

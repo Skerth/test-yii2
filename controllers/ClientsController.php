@@ -56,7 +56,7 @@ class ClientsController extends Controller
     public function actionIndex()
     {
         $searchModel = new ClientsSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider = $searchModel->search($this->request->queryParams, 6);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

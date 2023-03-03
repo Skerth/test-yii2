@@ -55,7 +55,7 @@ class TaskController extends Controller
     public function actionIndex()
     {
         $searchModel = new ClientsTaskSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider = $searchModel->search($this->request->queryParams, 6);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
