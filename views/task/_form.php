@@ -18,7 +18,6 @@ $paramsDropDownList = [
 
 if (isset($client_id)) {
     $paramsDropDownList = array_merge($paramsDropDownList, [
-        'disabled' => true,
         'options' => [
             $client_id => [
                     'Selected' => true,
