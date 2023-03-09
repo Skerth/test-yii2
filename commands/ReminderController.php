@@ -37,7 +37,15 @@ class ReminderController extends Controller
         $to = "sklyatov@gmail.com";
         $subject = "Checking PHP mail";
         $message = "PHP mail works just fine";
-        $headers = "From:" . $from;
+        $headers = [
+            'From' => "Do Sites CRM <$from>",
+            'X-Sender' => "Do Sites CRM <$from>",
+            'X-Mailer' => 'PHP/' . phpversion(),
+            'X-Priority' => '1',
+            'Return-Path' => "$from",
+            'MIME-Version' => '1.0',
+            'Content-Type' => 'text/html; charset=iso-8859-1'
+        ];
         mail($to,$subject,$message, $headers);
         echo "The email message was sent.";
 
