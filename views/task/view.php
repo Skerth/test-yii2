@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ]) ?>
 
-            <?= Html::tag('p', $model->note); ?>
+            <?= Html::tag('p', str_replace(array("\r\n", "\r", "\n"), '<br />', $model->note)); ?>
         </div>
     </div>
 

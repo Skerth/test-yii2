@@ -140,7 +140,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             ]
                                     ]) ?>
 
-                                    <?= $task->note; ?>
+                                    <?=  str_replace(array("\r\n", "\r", "\n"), '<br />', $task->note); ?>
                                 </div>
                             </div>
                         </div>
