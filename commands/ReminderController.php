@@ -3,7 +3,9 @@
 
 namespace app\commands;
 
-use DateTime;
+use Yii;
+use yii\db\StaleObjectException;
+use yii\symfonymailer\Mailer;
 use yii\console\Controller;
 use yii\console\ExitCode;
 use app\models\ClientsTask;
@@ -30,6 +32,14 @@ class ReminderController extends Controller
             $modelTask->archive = 1;
             $modelTask->update();
         }
+
+        $from = "noreply@do-sites.ru";
+        $to = "sklyatov@gmail.com";
+        $subject = "Checking PHP mail";
+        $message = "PHP mail works just fine";
+        $headers = "From:" . $from;
+        mail($to,$subject,$message, $headers);
+        echo "The email message was sent.";
 
         return ExitCode::OK;
     }
