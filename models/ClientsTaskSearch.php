@@ -47,6 +47,13 @@ class ClientsTaskSearch extends ClientsTask
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> [
+                'defaultOrder' => [
+                    'archive' => SORT_ASC,
+                    'check_date' => SORT_ASC,
+                ]
+            ],
+
             'pagination' => [
                 'pageSize' => $pageSize,
             ],
