@@ -26,9 +26,6 @@ class ReminderController extends Controller
 
         foreach ($tasks as $task)
         {
-            echo date('d M y', strtotime($task->check_date)) . " | ";
-            echo $task->archive . " | ";
-            echo $task->note . "\n";
             $modelTask = ClientsTask::findOne($task->id);
             $modelTask->archive = 1;
             $modelTask->update();
@@ -58,10 +55,13 @@ class ReminderController extends Controller
                 'MIME-Version' => '1.0',
                 'Content-Type' => 'text/html; charset=iso-8859-1'
             ];
+
             mail($to,$subject,$message, $headers);
-            echo "The email message was sent.";
+
+            echo "The email message was sent. \n";
         }
 
         return ExitCode::OK;
     }
 }
+
