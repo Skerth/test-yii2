@@ -43,9 +43,14 @@ class ReminderController extends Controller
         if (count($arrTasks))
         {
             $from = "noreply@do-sites.ru";
-            $to = "sklyatov@gmail.com";
+            $to = "matador-ver2.0@yandex.ru";
             $subject = "Checking PHP mail";
-            $message = "PHP mail works just fine";
+            $message = "Количество задач: " . count($arrTasks"\n";
+
+            foreach ($arrTasks as $item) {
+                $message .= "<a target="_blank" href='http://crm.do-sites.ru/index.php?r=task%252Fview&id=" . $item->id . "'>Задача " . item->id .  ". Клиент " . $item->client . "</a>\n";
+            }
+
             $headers = [
                 'From' => "Do Sites CRM <$from>",
                 'X-Sender' => "Do Sites CRM <$from>",
