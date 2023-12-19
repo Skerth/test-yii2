@@ -44,11 +44,11 @@ class ReminderController extends Controller
         {
             $from = "noreply@do-sites.ru";
             $to = "matador-ver2.0@yandex.ru";
-            $subject = "Checking PHP mail";
-            $message = "Количество задач: " . count($arrTasks) . "\n";
+            $subject = "Оповещение с crm.do-sites.ru о ближайших задачах";
+            $message = "Количество задач: " . count($arrTasks) . "<br />";
 
             foreach ($arrTasks as $item) {
-                $message .= "<a target='_blank' href='http://crm.do-sites.ru/index.php?r=task%252Fview&id=" . $item['id'] . "'>Задача " . $item['id'] .  ". Клиент " . $item['client'] . "</a>\n";
+                $message .= "<a target='_blank' href='http://crm.do-sites.ru/index.php?r=task%252Fview&id=" . $item['id'] . "'>Задача " . $item['id'] .  ". Клиент " . $item['client'] . "</a><br />";
             }
 
             $headers = [
