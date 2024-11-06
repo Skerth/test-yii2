@@ -52,7 +52,7 @@ class ReminderController extends Controller
             $message = "Количество задач: " . count($arrTasks) . "%0A";
 
             foreach ($arrTasks as $item) {
-                $message .= "Задача: " . $item['id'] .  "%0AКлиент: " . $item['client'] . "%0A";
+                $message .= "Задача: №" . $item['id'] .  "%0AКлиент: " . $item['client'] . "%0A%0A";
             }
 
             file_get_contents($complete_url . $message);
