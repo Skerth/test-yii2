@@ -42,16 +42,22 @@ class ReminderController extends Controller
 
         if (count($arrTasks))
         {
-            $from = "noreply@do-sites.ru";
+            $bot_token = "7659103234:AAH95OkCUakcZzqmWc37OeObc8XtA-sP8oc";
+            $chat_id = "217349575";
+            $complete_url = "https://api.telegram.org/bot" . $bot_token . "/sendMessage?chat_id=" . $chat_id . "&text=";
+            $chat_id = "";
+            /*$from = "noreply@do-sites.ru";
             $to = "matador-ver2.0@yandex.ru";
-            $subject = "Оповещение с crm.do-sites.ru о ближайших задачах";
+            $subject = "Оповещение с crm.do-sites.ru о ближайших задачах";*/
             $message = "Количество задач: " . count($arrTasks) . "<br />";
 
             foreach ($arrTasks as $item) {
                 $message .= "<a target='_blank' href='http://crm.do-sites.ru/index.php?r=task%252Fview&id=" . $item['id'] . "'>Задача " . $item['id'] .  ". Клиент " . $item['client'] . "</a><br />";
             }
 
-            $headers = [
+            file_get_contents($complete_url . $message);
+
+            /*$headers = [
                 'From' => "Do Sites CRM <$from>",
                 'X-Sender' => "Do Sites CRM <$from>",
                 'X-Mailer' => 'PHP/' . phpversion(),
@@ -59,11 +65,11 @@ class ReminderController extends Controller
                 'Return-Path' => "$from",
                 'MIME-Version' => '1.0',
                 'Content-Type' => 'text/html; charset=iso-8859-1'
-            ];
+            ];*/
 
-            mail($to,$subject,$message, $headers);
+            //mail($to,$subject,$message, $headers);
 
-            echo "The email message was sent. \n";
+            echo "The message was sent. \n";
         }
 
         return ExitCode::OK;
